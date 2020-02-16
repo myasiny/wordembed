@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<!--
+Copyright  2012  Ali Ok (aliokATapacheDOTorg)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<parseset xmlns="http://trnltk.org/parseset">
+    <sentence>
+        <!--index 00-->
+        <!--Personal Pronoun 'o' -->
+        <word parse_result="o(o)+Pron+Pers+A3sg+Pnon+Nom" str="o" syntactic_category="Pron" secondary_syntactic_category="Pers">
+            <root lemma="o" lemma_root="o" str="o" syntactic_category="Pron" secondary_syntactic_category="Pers"/>
+            <suffixes>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="o" name="A3sg" word="o" to_syntactic_category="Pron"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="o" name="Pnon" word="o" to_syntactic_category="Pron"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="o" name="Nom" word="o" to_syntactic_category="Pron"/>
+            </suffixes>
+        </word>
+
+        <!--index 01-->
+        <!--Demonstrative Pronoun 'o'-->
+        <word parse_result="o(o)+Pron+Demons+A3sg+Pnon+Nom" str="o" syntactic_category="Pron" secondary_syntactic_category="Demons">
+            <root lemma="o" lemma_root="o" str="o" syntactic_category="Pron" secondary_syntactic_category="Demons"/>
+            <suffixes>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="o" name="A3sg" word="o" to_syntactic_category="Pron"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="o" name="Pnon" word="o" to_syntactic_category="Pron"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="o" name="Nom" word="o" to_syntactic_category="Pron"/>
+            </suffixes>
+        </word>
+
+        <!--index 02-->
+        <!--Determiner 'o'-->
+        <word parse_result="o(o)+Det" str="o" syntactic_category="Det">
+            <root lemma="o" lemma_root="o" str="o" syntactic_category="Det"/>
+        </word>
+
+        <!--index 03-->
+        <!--Personal pronoun 'o' with inflectional suffix Acc-->
+        <word parse_result="o(o)+Pron+Pers+A3sg+Pnon+Acc" str="onu" syntactic_category="Pron" secondary_syntactic_category="Pers">
+            <root lemma="o" lemma_root="o" str="o" syntactic_category="Pron" secondary_syntactic_category="Pers"/>
+            <suffixes>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="o" name="A3sg" word="o" to_syntactic_category="Pron"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="o" name="Pnon" word="o" to_syntactic_category="Pron"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="onu" name="Acc" word="onu" to_syntactic_category="Pron"/>
+            </suffixes>
+        </word>
+
+        <!--index 04-->
+        <!--Demonstrative pronoun 'o' with inflectional suffix Acc-->
+        <word parse_result="o(o)+Pron+Pers+A3sg+Pnon+Acc" str="onu" syntactic_category="Pron" secondary_syntactic_category="Demons">
+            <root lemma="o" lemma_root="o" str="o" syntactic_category="Pron" secondary_syntactic_category="Demons"/>
+            <suffixes>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="o" name="A3sg" word="o" to_syntactic_category="Pron"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="o" name="Pnon" word="o" to_syntactic_category="Pron"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="onu" name="Acc" word="onu" to_syntactic_category="Pron"/>
+            </suffixes>
+        </word>
+
+        <!--index 05-->
+        <unparsable_word str="something"/>
+
+        <!--index 06-->
+        <!--Root 'git' with verb 'gitmek'-->
+        <word parse_result="git(git)+Verb+Pos+Past+A1sg" str="gittim" syntactic_category="Verb">
+            <root lemma="gitmek" lemma_root="git" str="git" syntactic_category="Verb"/>
+            <suffixes>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="git" name="Pos" word="git" to_syntactic_category="Verb"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="gitti" name="Past" word="gitti" to_syntactic_category="Verb"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="gittim" name="A1sg" word="gittim" to_syntactic_category="Verb"/>
+            </suffixes>
+        </word>
+
+        <!--index 07-->
+        <!--Root 'gid' with verb 'gitmek'-->
+        <word parse_result="gid(git)+Verb+Pos+Aor+A1sg" str="giderim" syntactic_category="Verb">
+            <root lemma="gitmek" lemma_root="git" str="gid" syntactic_category="Verb"/>
+            <suffixes>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="git" name="Pos" word="git" to_syntactic_category="Verb"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="gider" name="Aor" word="gider" to_syntactic_category="Verb"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="giderim" name="A1sg" word="giderim" to_syntactic_category="Verb"/>
+            </suffixes>
+        </word>
+
+        <!--index 08-->
+        <!--Transition 'gidecek' with in word 'gidecekler' wıth syntactic category Verb-->
+        <word parse_result="gid(git)+Verb+Pos+Fut+A3pl" str="gidecekler" syntactic_category="Verb">
+            <root lemma="gitmek" lemma_root="git" str="gid" syntactic_category="Verb"/>
+            <suffixes>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="git" name="Pos" word="git" to_syntactic_category="Verb"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="gidecek" name="Fut" word="gidecek" to_syntactic_category="Verb"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="gidecekler" name="A3pl" word="gidecekler" to_syntactic_category="Verb"/>
+            </suffixes>
+        </word>
+
+        <!--index 09-->
+        <!--Transition 'gideceğ' with in word 'gideceğim' wıth syntactic category Verb-->
+        <word parse_result="gid(git)+Verb+Pos+Fut+A1sg" str="gideceğim" syntactic_category="Verb">
+            <root lemma="gitmek" lemma_root="git" str="gid" syntactic_category="Verb"/>
+            <suffixes>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="git" name="Pos" word="git" to_syntactic_category="Verb"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="gideceğ" name="Fut" word="gidecek" to_syntactic_category="Verb"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="gideceğim" name="A1sg" word="gideceğim" to_syntactic_category="Verb"/>
+            </suffixes>
+        </word>
+
+        <!--index 10-->
+        <!--Transition 'gidecek' with in word 'gidecekler' wıth syntactic category Noun-->
+        <word parse_result="gid(git)+Verb+Pos+Noun+FutPart+A3pl+Pnon+Nom" str="gidecekler" syntactic_category="Noun">
+            <root lemma="gitmek" lemma_root="git" str="gid" syntactic_category="Verb"/>
+            <suffixes>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="git" name="Pos" word="git" to_syntactic_category="Verb"/>
+                <derivationalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="gidecek" name="FutPart" word="gidecek" to_syntactic_category="Noun"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="gidecekler" name="A3pl" word="gidecekler" to_syntactic_category="Noun"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="gidecekler" name="Pnon" word="gidecekler" to_syntactic_category="Noun"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="gidecekler" name="Nom" word="gidecekler" to_syntactic_category="Noun"/>
+            </suffixes>
+        </word>
+
+        <!--index 11-->
+        <!--Transition 'gideceğ' with in word 'gideceğim' wıth syntactic category Noun-->
+        <word parse_result="gid(git)+Verb+Pos+Noun+FutPart+A3sg+P1sg+Nom" str="gideceğim" syntactic_category="Noun">
+            <root lemma="gitmek" lemma_root="git" str="gid" syntactic_category="Verb"/>
+            <suffixes>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="git" name="Pos" word="git" to_syntactic_category="Verb"/>
+                <derivationalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="gideceğ" name="FutPart" word="gidecek" to_syntactic_category="Noun"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="gideceğ" name="A3sg" word="gidecek" to_syntactic_category="Noun"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="gideceğim" name="P1sg" word="gideceğim" to_syntactic_category="Noun"/>
+                <inflectionalSuffix actual="sth" application="sth" form="sth" id="sth" matched_word="gideceğim" name="Nom" word="gideceğim" to_syntactic_category="Noun"/>
+            </suffixes>
+        </word>
+
+    </sentence>
+</parseset>

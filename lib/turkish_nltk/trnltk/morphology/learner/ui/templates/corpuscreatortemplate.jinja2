@@ -1,0 +1,39 @@
+<!--
+Copyright  2012  Ali Ok (aliokATapacheDOTorg)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+{% extends "basetemplate.jinja2" %}
+{% block content %}
+    {% if error_occurred %}
+    <div class="alert alert-block alert-error" style="text-align: center;">
+        <legend><h1>An error occurred:</h1></legend>
+        <h3>{{ error_msg }}</h3>
+        <br/>
+        <button class="btn btn-large btn-danger" onclick="history.go(-1);">
+            <i class="icon-arrow-left icon-white"></i>
+            Go Back
+        </button>
+    </div>
+    {% else %}
+    <div class="alert alert-block alert-success" style="text-align: center;">
+        <h3>Successfully created the corpus!</h3>
+        <a class="btn btn-large btn-success" href="index">
+            <i class="icon-arrow-left icon-white"></i>
+            Go Home
+        </a>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

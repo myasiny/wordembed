@@ -1,0 +1,53 @@
+<!--
+Copyright  2012  Ali Ok (aliokATapacheDOTorg)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+{% extends "basetemplate.jinja2" %}
+{% block content %}
+    <div class="well" style="text-align: center;">
+        <h3>
+            {{ current_surface }}
+        </h3>
+        <h4>
+            Word id : {{ current_word_id }}
+        </h4>
+    </div>
+    <div class="well" style="text-align: center;">
+        <form action="?action=update&wordId={{ current_word_id }}&nextWordId={{ next_word_id }}" method="post">
+            <legend><h2 class="text-success">Update Word</h2></legend>
+
+            <label>Surface</label>
+            <input class="input-xxlarge" required="required" name="surfaceFirstPart" type="text" value="{{ current_surface }}"/>
+
+            <legend><h2 class="text-success">and Insert a Surface After</h2></legend>
+
+            <label>New Surface</label>
+            <input class="input-xxlarge" name="surfaceSecondPart" type="text" placeholder="Leave empty if you don't want to insert"/>
+
+            <br/>
+            <button type="submit" class="btn btn-large btn-success">
+                <i class="icon-plus-sign icon-white"></i>
+                Update
+            </button>
+        </form>
+    </div>
+    <div style="text-align: center">
+        <h2>OR</h2>
+    </div>
+    <div class="well" style="text-align: center;">
+        <legend><h2 class="text-success">Delete it</h2></legend>
+        <h4>(Deletes immediately, no confirmation)</h4>
+        <a href="editWord?action=delete&wordId={{ current_word_id }}&nextWordId={{ next_word_id }}" class="btn btn-danger btn-large">Edit/Delete Word</a>
+    </div>
+{% endblock %}

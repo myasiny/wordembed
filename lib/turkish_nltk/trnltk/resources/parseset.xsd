@@ -1,0 +1,129 @@
+<!--
+Copyright  2012  Ali Ok (aliokATapacheDOTorg)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://trnltk.org/parseset"
+           xmlns="http://trnltk.org/parseset"
+           elementFormDefault="qualified">
+
+    <xs:element name="parseset" type="ParseSetType"/>
+
+    <xs:complexType name="ParseSetType">
+        <xs:sequence>
+            <xs:element name="sentence" type="SentenceType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="SentenceType">
+        <xs:sequence>
+            <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="word" type="WordType"/>
+                <xs:element name="unparsable_word" type="UnparsableWordType"/>
+            </xsd:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="UnparsableWordType">
+        <xs:attribute name="str" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="WordType">
+        <xs:sequence>
+            <xs:element name="root" type="RootType" maxOccurs="1" minOccurs="1"/>
+            <xs:element name="suffixes" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:element name="inflectionalSuffix" type="InflectionalSuffixType"/>
+                            <xs:element name="derivationalSuffix" type="DerivationalSuffixType"/>
+                        </xsd:choice>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="str" type="xs:string" use="required"/>
+        <xs:attribute name="parse_result" type="xs:string" use="required"/>
+        <xs:attribute name="syntactic_category" type="SyntacticCategoryType" use="required"/>
+        <xs:attribute name="secondary_syntactic_category" type="SecondarySyntacticCategoryType"/>
+    </xs:complexType>
+
+    <xs:complexType name="RootType">
+        <xs:attribute name="str" type="xs:string" use="required"/>
+        <xs:attribute name="lemma" type="xs:string" use="required"/>
+        <xs:attribute name="lemma_root" type="xs:string" use="required"/>
+        <xs:attribute name="syntactic_category" type="SyntacticCategoryType" use="required"/>
+        <xs:attribute name="secondary_syntactic_category" type="SecondarySyntacticCategoryType"/>
+    </xs:complexType>
+
+    <xs:complexType name="DerivationalSuffixType" xml:base="SuffixType">
+        <xs:complexContent>
+            <xs:extension base="SuffixType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="InflectionalSuffixType">
+        <xs:complexContent>
+            <xs:extension base="SuffixType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="SuffixType" abstract="true">
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="form" type="xs:string" use="required"/>
+        <xs:attribute name="application" type="xs:string" use="required"/>
+        <xs:attribute name="actual" type="xs:string" use="required"/>
+        <xs:attribute name="matched_word" type="xs:string" use="required"/>
+        <xs:attribute name="word" type="xs:string" use="required"/>
+        <xs:attribute name="to_syntactic_category" type="SyntacticCategoryType" use="required"/>
+    </xs:complexType>
+
+    <xs:simpleType name="SyntacticCategoryType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Noun"/>
+            <xs:enumeration value="Adj"/>
+            <xs:enumeration value="Adv"/>
+            <xs:enumeration value="Conj"/>
+            <xs:enumeration value="Interj"/>
+            <xs:enumeration value="Verb"/>
+            <xs:enumeration value="Pron"/>
+            <xs:enumeration value="Num"/>
+            <xs:enumeration value="Det"/>
+            <xs:enumeration value="Part"/>
+            <xs:enumeration value="Ques"/>
+            <xs:enumeration value="Punc"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="SecondarySyntacticCategoryType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Dup"/>
+            <xs:enumeration value="Postp"/>
+            <xs:enumeration value="Ques"/>
+            <xs:enumeration value="Demons"/>
+            <xs:enumeration value="Reflex"/>
+            <xs:enumeration value="Pers"/>
+            <xs:enumeration value="Time"/>
+            <xs:enumeration value="Prop"/>
+            <xs:enumeration value="Abbr"/>
+            <xs:enumeration value="Card"/>
+            <xs:enumeration value="Ord"/>
+            <xs:enumeration value="Digits"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

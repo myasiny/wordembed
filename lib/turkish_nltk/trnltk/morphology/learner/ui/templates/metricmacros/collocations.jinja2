@@ -1,0 +1,376 @@
+<!--
+Copyright  2012  Ali Ok (aliokATapacheDOTorg)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+{% import "metricmacros/contextlessdistributions.jinja2" as contextless_distributions with context%}
+{% import "metricmacros/sequencelikelihoods.jinja2" as sequence_likelihoods with context%}
+
+
+{% macro collocation_likelihood_matrix(calculation_context, parse_result_uuid) -%}
+<div xmlns="http://www.w3.org/1999/html">
+
+    {{ _render_one_way_details_accordion(calculation_context['leading'], "leading-" ~ parse_result_uuid, True) }}
+    {{ _render_one_way_details_accordion(calculation_context['following'], "following-" ~ parse_result_uuid, False) }}
+
+    <span style="font-size: larger;">
+        {{ _render_two_way_sum(calculation_context) }}
+    </span>
+
+</div>
+{%- endmacro %}
+
+{% macro _render_one_way_details_accordion(one_way_calculation_context, unique_identifier, is_leading) -%}
+<div class="accordion">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <table width="100%">
+                <tr>
+                    <td>
+                        <div>
+                            {{ _render_one_way_likelihood_possibility_sum(one_way_calculation_context, is_leading) }}
+                        </div>
+                    </td>
+                    {% if one_way_calculation_context %}
+                    <td style="vertical-align: middle;">
+                        <button type="button" class="btn btn-info" style="float: right;" data-toggle="collapse" data-target="#context-detail-{{ unique_identifier }}">
+                            <i class="icon-chevron-right icon-white"></i>
+                            Details
+                        </button>
+                    </td>
+                    {% endif %}
+                </tr>
+            </table>
+            {% if one_way_calculation_context %}
+            <div id="context-detail-{{ unique_identifier }}" class="accordion-body collapse">
+                <div class="accordion-inner" style="text-align: center;">
+                    <h4>Interpolation :</h4>
+                    {{ _render_one_way_likelihood_interpolation(one_way_calculation_context, unique_identifier, is_leading) }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{%- endmacro %}
+
+{% macro _render_two_way_sum(calculation_context) -%}
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"
+        >
+    <mrow>
+        <mi>&Lscr;</mi>
+        <mo>=</mo>
+        <mfenced close="]" open="[">
+            <mtable>
+                <mtr>
+                    <mtd>
+                        <mn>{{ calculation_context['weight_leading_context'] }}</mn>
+                    </mtd>
+                    <mtd>
+                        <mn>{{ calculation_context['weight_following_context'] }}</mn>
+                    </mtd>
+                </mtr>
+            </mtable>
+        </mfenced>
+        <mo>&#x22c5;</mo>
+        <mfenced close="]" open="[">
+            <mtable>
+                <mtr>
+                    <mtd>
+                        <msub>
+                            <mi>&Lscr;</mi>
+                            <mi>leading</mi>
+                        </msub>
+                    </mtd>
+                </mtr>
+                <mtr>
+                    <mtd>
+                        <msub>
+                            <mi>&Lscr;</mi>
+                            <mi>following</mi>
+                        </msub>
+                    </mtd>
+                </mtr>
+            </mtable>
+        </mfenced>
+        <mo>=</mo>
+        <mn>{{ calculation_context['sum_likelihood'] }}</mn>
+    </mrow>
+</math>
+{%- endmacro %}
+
+{% macro _render_one_way_likelihood_interpolation(one_way_calculation_context, parse_result_uuid, is_leading) -%}
+    <table class="table table-condensed table-bordered">
+    {% set interpolation_context = one_way_calculation_context['interpolation'] %}
+    {% for one_way_calculation_interpolation_context_item_key in interpolation_context['likelihood'] %}
+        {% set interpolation_context_id = parse_result_uuid ~ '_' ~ loop.index0 ~ '_' ~ is_leading %}
+        <tr>
+            <td>NGram length : {{ loop.index }}</td>
+            <td>
+                <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"
+                        >
+                    <mrow>
+                        <mn>{{ interpolation_context['likelihood'][loop.index0] }}</mn>
+                        <mo>*</mo>
+                        <mn>{{ interpolation_context['weight'][loop.index0] }}</mn>
+                        <mo>=</mo>
+                        <mn>{{ interpolation_context['part_weight'][loop.index0] }}</mn>
+                    </mrow>
+                </math>
+            </td>
+            <td style="vertical-align: middle;">
+                <button type="button" class="btn btn-info interpolation_context_detail_button" style="float: right;" data-interpolation-context-id="{{ interpolation_context_id }}">
+                    <i class="icon-chevron-right icon-white"></i>
+                    NGram Collocation Likelihood Details
+                </button>
+            </td>
+        </tr>
+        <tr style="display: none;" id="interpolation-context-detail-{{ interpolation_context_id }}">
+            <td colspan="3">
+                {{ _render_one_way_likelihood_matrix(interpolation_context['item'][loop.index0], is_leading) }}
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+{%- endmacro %}
+
+{% macro _render_one_way_likelihood_matrix(one_way_calculation_context, is_leading) -%}
+<table class="table table-condensed">
+    {% for one_way_calculation_context_item_key in one_way_calculation_context['possibilities'] %}
+    <tr>
+        <td>{{ _render_one_way_likelihood_possibility_contexts(one_way_calculation_context['possibilities'][one_way_calculation_context_item_key]) }}</td>
+        <td>{{ _render_one_way_likelihood_possibility_matrix(one_way_calculation_context['possibilities'][one_way_calculation_context_item_key], loop.index0, is_leading) }}</td>
+    </tr>
+    <tr>
+        <td>{{ _render_one_way_likelihood_possibility_context_likelihood(one_way_calculation_context['possibilities'][one_way_calculation_context_item_key], loop.index0, is_leading) }}</td>
+        <td>{{ _render_one_way_likelihood_possibility_item_sum(one_way_calculation_context['possibilities'][one_way_calculation_context_item_key], loop.index0, is_leading) }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{%- endmacro %}
+
+
+{% macro _render_one_way_likelihood_possibility_sum(one_way_calculation_context, is_leading) -%}
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"
+        >
+    <mrow>
+        <msub>
+            <mi>&Lscr;</mi>
+            <mi>{{ {True:'leading', False:'following'}[is_leading] }}</mi>
+        </msub>
+        <mo>=</mo>
+        {% if one_way_calculation_context['sum_likelihood'] is defined %}
+        <munderover>
+            <mo>&Sum;</mo>
+            <mrow>
+                <mi>i</mi>
+                <mo>=</mo>
+                <mn>0</mn>
+            </mrow>
+            <mn>...</mn>
+        </munderover>
+        <msub>
+            <mi>&Lscr;</mi>
+            <msub>
+                <mi>{{ {True:'leading', False:'following'}[is_leading] }}</mi>
+                <mi>i</mi>
+            </msub>
+        </msub>
+        <mo>=</mo>
+        <mn>{{ one_way_calculation_context['sum_likelihood'] }}</mn>
+        {% else %}
+            <mn>0.0</mn>
+        {% endif %}
+    </mrow>
+</math>
+{%- endmacro %}
+
+{% macro _render_one_way_likelihood_possibility_contexts(one_way_calculation_context_item) -%}
+    <table class="table table-condensed table-bordered">
+        <thead>
+            <tr>
+                <th>Surface</th>
+                <th>Stem</th>
+                <th>Lexeme</th>
+            </tr>
+        </thead>
+    {% for context_word_key in one_way_calculation_context_item['context_words'] %}
+        <tr>
+            <td>{{ one_way_calculation_context_item['context_words'][context_word_key]['surface'] }}</td>
+            <td>{{ one_way_calculation_context_item['context_words'][context_word_key]['stem'] }}</td>
+            <td>{{ one_way_calculation_context_item['context_words'][context_word_key]['lexeme'] }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+{%- endmacro %}
+
+{% macro _render_one_way_likelihood_possibility_matrix(one_way_calculation_context_item, item_index, is_leading) -%}
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"
+        >
+    <mrow>
+        <msub>
+            <mi>&Lscr;</mi>
+            <mi>{{ {True:'leading', False:'following'}[is_leading] }}{{ item_index }}</mi>
+        </msub>
+        <mo>=</mo>
+        <msup>
+            <mfenced close=")" open="(">
+                <mrow>
+                    <mfenced close="]" open="[">
+                        <mtable>
+                            <mtr>
+                                <mtd>
+                                    <mn>{{ one_way_calculation_context_item.target_form_probabilities[0][0] }}</mn>
+                                </mtd>
+                                <mtd>
+                                    <mn>{{ one_way_calculation_context_item.target_form_probabilities[0][1] }}</mn>
+                                </mtd>
+                                <mtd>
+                                    <mn>{{ one_way_calculation_context_item.target_form_probabilities[0][2] }}</mn>
+                                </mtd>
+                            </mtr>
+                            <mtr>
+                                <mtd>
+                                    <mn>{{ one_way_calculation_context_item.target_form_probabilities[1][0] }}</mn>
+                                </mtd>
+                                <mtd>
+                                    <mn>{{ one_way_calculation_context_item.target_form_probabilities[1][1] }}</mn>
+                                </mtd>
+                                <mtd>
+                                    <mn>{{ one_way_calculation_context_item.target_form_probabilities[1][2] }}</mn>
+                                </mtd>
+                            </mtr>
+                            <mtr>
+                                <mtd>
+                                    <mn>{{ one_way_calculation_context_item.target_form_probabilities[2][0] }}</mn>
+                                </mtd>
+                                <mtd>
+                                    <mn>{{ one_way_calculation_context_item.target_form_probabilities[2][1] }}</mn>
+                                </mtd>
+                                <mtd>
+                                    <mn>{{ one_way_calculation_context_item.target_form_probabilities[2][2] }}</mn>
+                                </mtd>
+                            </mtr>
+                        </mtable>
+                    </mfenced>
+                    <mo>&#x22c5;</mo>
+                    <mfenced close="]" open="[">
+                        <mtable>
+                            <mtr>
+                                <mtd>
+                                    <mn>{{ one_way_calculation_context_item.coefficients_target_form_given_context[0][0] }}</mn>
+                                    <mo>x</mo>
+                                    <mn>{{ one_way_calculation_context_item.coefficients_target_given_context_form[0][0] }}</mn>
+                                </mtd>
+                            </mtr>
+                            <mtr>
+                                <mtd>
+                                    <mn>{{ one_way_calculation_context_item.coefficients_target_form_given_context[0][1] }}</mn>
+                                    <mo>x</mo>
+                                    <mn>{{ one_way_calculation_context_item.coefficients_target_given_context_form[0][1] }}</mn>
+                                </mtd>
+                            </mtr>
+                            <mtr>
+                                <mtd>
+                                    <mn>{{ one_way_calculation_context_item.coefficients_target_form_given_context[0][2] }}</mn>
+                                    <mo>x</mo>
+                                    <mn>{{ one_way_calculation_context_item.coefficients_target_given_context_form[0][2] }}</mn>
+                                </mtd>
+                            </mtr>
+                        </mtable>
+                    </mfenced>
+                </mrow>
+            </mfenced>
+            <mo>T</mo>
+        </msup>
+        <mo>&#x22c5;</mo>
+        <mfenced close="]" open="[">
+            <mtable>
+                <mtr>
+                    <mtd>
+                        <mn>1</mn>
+                    </mtd>
+                    <mtd>
+                        <mn>1</mn>
+                    </mtd>
+                    <mtd>
+                        <mn>1</mn>
+                    </mtd>
+                </mtr>
+            </mtable>
+        </mfenced>
+        <mo>=</mo>
+        <mn>{{ one_way_calculation_context_item.weight_summed_target_probability[0][0] }}</mn>
+    </mrow>
+</math>
+
+{%- endmacro %}
+
+{% macro _render_one_way_likelihood_possibility_context_likelihood(one_way_calculation_context_item, item_index, is_leading) -%}
+    <table class="table table-condensed table-bordered">
+        <tr>
+            <td>
+                <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                    <mrow>
+                        <msub>
+                            <mi>W</mi>
+                            <mi>{{ {True:'leading', False:'following'}[is_leading] }}Context{{ item_index }}</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <mn>{{ one_way_calculation_context_item['context_likelihood'] }}</mn>
+                    </mrow>
+                </math>
+            </td>
+            <td style="vertical-align: middle;">
+                <button type="button" class="btn btn-info possibility_context_detail_button" style="float: right;">
+                    <i class="icon-chevron-right icon-white"></i>
+                    Details
+                </button>
+            </td>
+        </tr>
+        <tr class="possibility-context-likelihood-details" style="display: none;">
+            <td colspan="2">
+                {% set context_sequence_likelihood = one_way_calculation_context_item['context_sequence_likelihood'] %}
+                {{ sequence_likelihoods.sequence_likelihood_details(context_sequence_likelihood, is_leading, item_index) }}
+            </td>
+        </tr>
+    </table>
+{%- endmacro %}
+
+{% macro _render_one_way_likelihood_possibility_item_sum(one_way_calculation_context_item, item_index, is_leading) -%}
+    <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+        <mrow>
+            <msub>
+                <msup>
+                    <mi>&Lscr;</mi>
+                    <mi>'</mi>
+                </msup>
+                <mi>{{ {True:'leading', False:'following'}[is_leading] }}{{ item_index }}</mi>
+            </msub>
+            <mo>=</mo>
+            <msub>
+                <mi>&Lscr;</mi>
+                <mi>{{ {True:'leading', False:'following'}[is_leading] }}{{ item_index }}</mi>
+            </msub>
+            <mo>*</mo>
+            <msub>
+                <mi>W</mi>
+                <mi>{{ {True:'leading', False:'following'}[is_leading] }}Context{{ item_index }}</mi>
+            </msub>
+            <mo>=</mo>
+            <mn>{{ one_way_calculation_context_item['weighted_parse_result_possibility_likelihood'] }}</mn>
+        </mrow>
+    </math>
+
+{%- endmacro %}

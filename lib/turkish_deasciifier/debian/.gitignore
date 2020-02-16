@@ -1,0 +1,7 @@
+files
+tmp
+*.substvars
+source
+*.log
+*.debhelper
+*-deasciifier/

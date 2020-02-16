@@ -1,0 +1,7 @@
+https://github.com/emres/turkish-deasciifier
+
+https://github.com/aliok/trnltk
+
+https://github.com/otuncelli/turkish-stemmer-python
+
+https://github.com/obulat/trLemmer
